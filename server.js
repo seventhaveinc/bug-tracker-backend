@@ -41,6 +41,9 @@ db.on('open', () => {
 // THE MEAT OF IT
 ///////////////////////////////////////////////////////////////////
 
+const trackerController = require('./controllers/bugs.js')
+
+app.use('/bugs', trackerController)
 
 app.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
