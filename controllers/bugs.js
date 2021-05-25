@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
       console.error(error)
     } else {
       console.log(allForms)
-      res.send('allForms')
+      res.send(allForms)
     }
   })
 })
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 // Delete
 router.delete('/:id', (req, res) => {
-  Form.findMyIdAndRemove(req.params.id, (error, form) => {
+  Form.findByIdAndRemove(req.params.id, (error, form) => {
     if (error) {
       console.error(error)
       res.sendStatus(500)
@@ -31,20 +31,41 @@ router.delete('/:id', (req, res) => {
 
 // Update
 router.put('/:id', (req, res) => {
-
+  Form.findByIdAndUpdate(req.params.id, req.body, (error) => {
+    if (error) {
+      console.error(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
+    }
+  })
 })
 
 // Create
 router.post('/', (req, res) => {
-  
+  console.log(req.body)
+  Form.create(req.body, (error, createdForm) => {
+    if (error) {
+      console.error(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
+    }
+  })
 })
 
 // Edit
-router.get('/:id/edit', (req, res) => {
-
-})
 
 // Show
 router.get('/:id', (req, res) => {
-
+  Form.findById(req.params.id, (error, foundForm) => {
+    if (error) {
+      console.error(error)
+      res.sendStatus(400)
+    } else {
+      res.send(foundForm)
+    }
+  })
 })
+
+module.exports = router
