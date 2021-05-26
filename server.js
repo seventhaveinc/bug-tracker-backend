@@ -9,7 +9,8 @@ const app = express();
 const mongoose = require('mongoose');
 const mongoURI = process.env.MONGO_URI;
 const db = mongoose.connection;
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
+const cors = require('cors');
 
 ///////////////////////////////////////////////////////////////////
 // MIDDLEWARE
@@ -18,6 +19,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
+app.use(cors());
 
 ///////////////////////////////////////////////////////////////////
 // MONGO CONNECTION
