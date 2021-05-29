@@ -31,12 +31,12 @@ router.delete('/:id', (req, res) => {
 
 // Update
 router.put('/:id', (req, res) => {
-  Form.findByIdAndUpdate(req.params.id, req.body, (error) => {
+  Form.findByIdAndUpdate(req.params.id, req.body, (error, foundForm) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
     } else {
-      res.sendStatus(200)
+      res.send(foundForm);
     }
   })
 })
