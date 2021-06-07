@@ -1,15 +1,15 @@
 const express = require("express")
 const router = express.Router()
-const Form = require("../models/featureRequest");
+const Feature = require("../models/featureRequest");
 
 // Index
 router.get('/', (req, res) => {
-  Form.find({}, (error, allForms) => {
+  Feature.find({}, (error, allFeatures) => {
     if (error) {
       console.error(error)
     } else {
-      console.log(allForms)
-      res.send(allForms)
+      console.log(allFeatures)
+      res.send(allFeatures)
     }
   })
 })
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 // Delete
 router.delete('/:id', (req, res) => {
-  Form.findByIdAndRemove(req.params.id, (error, form) => {
+  Feature.findByIdAndRemove(req.params.id, (error, feature) => {
     if (error) {
       console.error(error)
       res.sendStatus(500)
@@ -31,12 +31,12 @@ router.delete('/:id', (req, res) => {
 
 // Update
 router.put('/:id', (req, res) => {
-  Form.findByIdAndUpdate(req.params.id, req.body, (error, foundForm) => {
+  Feature.findByIdAndUpdate(req.params.id, req.body, (error, foundFeature) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
     } else {
-      res.send(foundForm);
+      res.send(foundFeature);
     }
   })
 })
@@ -44,7 +44,7 @@ router.put('/:id', (req, res) => {
 // Create
 router.post('/', (req, res) => {
   console.log(req.body)
-  Form.create(req.body, (error, createdForm) => {
+  Feature.create(req.body, (error, createdFeature) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
@@ -58,12 +58,12 @@ router.post('/', (req, res) => {
 
 // Show
 router.get('/:id', (req, res) => {
-  Form.findById(req.params.id, (error, foundForm) => {
+  Feature.findById(req.params.id, (error, foundFeature) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
     } else {
-      res.send(foundForm)
+      res.send(foundFeature)
     }
   })
 })

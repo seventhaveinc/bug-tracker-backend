@@ -1,15 +1,15 @@
 const express = require("express")
 const router = express.Router()
-const Form = require("../models/bug");
+const Bug = require("../models/bug");
 
 // Index
 router.get('/', (req, res) => {
-  Form.find({}, (error, allForms) => {
+  Bug.find({}, (error, allBugs) => {
     if (error) {
       console.error(error)
     } else {
-      console.log(allForms)
-      res.send(allForms)
+      console.log(allBugs)
+      res.send(allBugs)
     }
   })
 })
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 // Delete
 router.delete('/:id', (req, res) => {
-  Form.findByIdAndRemove(req.params.id, (error, form) => {
+  Bug.findByIdAndRemove(req.params.id, (error, bug) => {
     if (error) {
       console.error(error)
       res.sendStatus(500)
@@ -31,12 +31,12 @@ router.delete('/:id', (req, res) => {
 
 // Update
 router.put('/:id', (req, res) => {
-  Form.findByIdAndUpdate(req.params.id, req.body, (error, foundForm) => {
+  Bug.findByIdAndUpdate(req.params.id, req.body, (error, foundBug) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
     } else {
-      res.send(foundForm);
+      res.send(foundBug);
     }
   })
 })
@@ -44,7 +44,7 @@ router.put('/:id', (req, res) => {
 // Create
 router.post('/', (req, res) => {
   console.log(req.body)
-  Form.create(req.body, (error, createdForm) => {
+  Bug.create(req.body, (error, createdBug) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
@@ -58,12 +58,12 @@ router.post('/', (req, res) => {
 
 // Show
 router.get('/:id', (req, res) => {
-  Form.findById(req.params.id, (error, foundForm) => {
+  Bug.findById(req.params.id, (error, foundBug) => {
     if (error) {
       console.error(error)
       res.sendStatus(400)
     } else {
-      res.send(foundForm)
+      res.send(foundBug)
     }
   })
 })
