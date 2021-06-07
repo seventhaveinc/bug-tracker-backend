@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const Form = require("../models/bug");
+const Form = require("../models/featureRequest");
 
 // Index
 router.get('/', (req, res) => {
