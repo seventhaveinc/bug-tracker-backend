@@ -56,29 +56,35 @@ app.use('/features', featureController);
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-
-  const response = await axios.post(apiURL + '/login', {
-    username: username,
-    password: password,
-    version: "staging"
-  });
-  console.log(response.data);
-  if (response.data.token) {
-    let payload = ({
-      token: response.data.token,
-      username: response.data.username,
-      iat: Date.now()
-    })
-    console.log(payload);
-    let token = jwt.encode(payload, jwtSecret);
-    res.send({
-      token: token
+  
+  try {
+    const response = await axios.post(apiURL + '/login', {
+      username: username,
+      password: password,
+      version: "staging"
     });
-  } else {
+    console.log(response.data);
+    if (response.data.token) {
+      let payload = ({
+        token: response.data.token,
+        username: response.data.username,
+        iat: Date.now()
+      })
+      console.log(payload);
+      let token = jwt.encode(payload, jwtSecret);
+      res.send({
+        token: token
+      });
+    } else {
+      res.send({
+        error: 'Authentication Failed'
+      });
+    };
+  } catch (error) {
     res.send({
       error: 'Authentication Failed'
-    });
-  };
+    })
+  }
 });
 
 app.listen(PORT, () => {

@@ -8,26 +8,29 @@ const jwt = require('jwt-simple');
 
 const verify = async (bigToken, needsInfo) => {
   const decoded = jwt.decode(bigToken, jwtSecret);
-  const response = await axios.post(apiURL + 'users/verify', {
-    token: decoded.token,
-    username: decoded.username,
-    version: 'staging'
-  })
-  if (needsInfo) {
+  console.log(decoded);
+  try {
+    const response = await axios.post(apiURL + 'users/verify', {
+      token: decoded.token,
+      username: decoded.username,
+      version: 'staging'
+    })
+    if (needsInfo) {
     return response.data;
   } else if (!needsInfo && response.data.username) {
     return true;
   } else {
     return false;
   }
+  } catch (error) {
+  }
 }
 
 // Index
 router.get('/', (req, res) => {
-  if (verify(req.headers.token, false) === true) {
+  if (verify(req.headers.token, false)) {
     Bug.find({}, (error, allBugs) => {
       if (error) {
-        console.error(error)
       } else {
         res.send(allBugs)
       }
@@ -43,7 +46,7 @@ router.get('/', (req, res) => {
 
 // Delete
 router.delete('/:id', (req, res) => {
-  if (verify(req.headers.token, false) === true) {
+  if (verify(req.headers.token, false)) {
     Bug.findByIdAndRemove(req.params.id, (error, bug) => {
       if (error) {
         console.error(error)
@@ -58,7 +61,8 @@ router.delete('/:id', (req, res) => {
 
 // Update
 router.put('/:id', (req, res) => {
-  if (verify(req.headers.token, false) === true) {
+  if (verify(req.headers.token, false)) {
+    console.log('verified');
     Bug.findByIdAndUpdate(req.params.id, req.body, (error, foundBug) => {
       if (error) {
         console.error(error)
@@ -85,7 +89,9 @@ router.post('/', async (req, res) => {
           error: error
         })
       } else {
-        res.status(200);
+        res.send({
+          status: 200
+        });
       }
     })
   }
