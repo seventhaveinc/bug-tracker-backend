@@ -72,14 +72,22 @@ router.put('/:id', (req, res) => {
 })
 
 // Create
-router.post('/', (req, res) => {
-  if (verify(req.headers.token)) {
-    Feature.create(req.body, (error, createdFeature) => {
+router.post('/', async (req, res) => {
+  const data = await verify(req.headers.token, true)
+  if (data.username) {
+    const { username, email } = data
+    const newFeature = {...req.body, username: username, email: email}
+    Feature.create(newFeature, (error, createdFeature) => {
       if (error) {
         console.error(error)
-        res.sendStatus(400)
+        res.status(400).send({
+          error: error
+        })
       } else {
-        res.sendStatus(200)
+        console.log('done');
+        res.send({
+          status: 200
+        });
       }
     })
   }

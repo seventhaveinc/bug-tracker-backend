@@ -31,6 +31,7 @@ router.get('/', (req, res) => {
   if (verify(req.headers.token, false)) {
     Bug.find({}, (error, allBugs) => {
       if (error) {
+        console.error(error);
       } else {
         res.send(allBugs)
       }
